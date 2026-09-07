@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>perfload workbench</title>
+    <title>PerfLoad workbench</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -236,7 +236,7 @@
 </head>
 <body onload="window.name='perfload-workbench'">
 <h1 style="display:flex; align-items:center;">
-    <a href="#" onclick="window.open('https://perfload.com','perfload-site'); return false;" style="color:inherit; text-decoration:none; white-space:nowrap;">perfload</a><span style="margin-left:0.35rem;">workbench</span>
+    <a href="#" onclick="window.open('https://perfload.com','perfload-site'); return false;" style="color:inherit; text-decoration:none; white-space:nowrap;">PerfLoad</a><span style="margin-left:0.35rem;">workbench</span>
     <a href="#" onclick="window.open('/','perfload-dashboard'); return false;"
        style="font-size:0.75rem; font-weight:400; color:#7dd3fc; text-decoration:none; margin-left:1rem; vertical-align:middle;">dashboard →</a>
 
@@ -384,7 +384,7 @@
         <!-- Step 1: pick a file -->
         <div id="importStep1" style="display:flex; flex-direction:column; gap:0.5rem;">
             <div style="font-size:0.82rem; color:#94a3b8;">
-                Select a perfload export (.json) or an OpenAPI spec (.json/.yaml/.yml).
+                Select a PerfLoad export (.json) or an OpenAPI spec (.json/.yaml/.yml).
             </div>
             <input type="file" id="importFileInput" accept=".json,.yaml,.yml"
                    onchange="handleImportFileSelected(this.files[0])" style="width:100%; margin:0;" />
@@ -2557,7 +2557,7 @@
             (typeof parsed.swagger === 'string' && parsed.swagger.startsWith('2'))) {
             return { kind: 'openapi', data: parsed };
         }
-        throw new Error('File is not a recognized perfload export or OpenAPI spec.');
+        throw new Error('File is not a recognized PerfLoad export or OpenAPI spec.');
     }
 
     // Builds a JSON request-body placeholder from a schema: uses each
@@ -2786,7 +2786,7 @@
     }
 </script>
 <footer style="margin-top:2rem; padding:1rem 2rem; text-align:right; font-size:0.75rem; color:#334155;">
-    perfload v1.6.0
+    PerfLoad v1.6.0
 </footer>
 </body>
 </html>

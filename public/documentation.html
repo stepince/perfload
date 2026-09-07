@@ -10,9 +10,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>perfload Documentation</title>
-  <meta name="description" content="Documentation for perfload — turn an HTTP request into a k6 load test, run it, and read the results. Covers requests, variables, execution modes, CI/CD, and AI skills.">
-  <meta property="og:title" content="perfload Documentation">
+  <title>PerfLoad Documentation</title>
+  <meta name="description" content="Documentation for PerfLoad — turn an HTTP request into a k6 load test, run it, and read the results. Covers requests, variables, execution modes, CI/CD, and AI skills.">
+  <meta property="og:title" content="PerfLoad Documentation">
   <meta property="og:description" content="Turn an HTTP request into a k6 load test, run it, and read the results.">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/png" href="/favicon.png">
@@ -172,7 +172,7 @@
 
 <h1 style="display:flex; align-items:center;">
   <a href="#" onclick="window.open('https://perfload.com','perfload-site'); return false;"
-     style="color:inherit; text-decoration:none; white-space:nowrap;">perfload</a>&nbsp;Documentation
+     style="color:inherit; text-decoration:none; white-space:nowrap;">PerfLoad</a>&nbsp;Documentation
   <a href="load-tester.html" target="perfload-workbench"
      style="font-size:0.75rem; font-weight:400; color:#7dd3fc; text-decoration:none; margin-left:1rem;"
      onmouseover="this.style.textDecoration='underline'"
@@ -181,7 +181,7 @@
 
 <div class="card">
   <h2>Installation &amp; Setup</h2>
-  <p>No installation required. perfload is available as a pre-built Docker image — just run it.</p>
+  <p>No installation required. PerfLoad is available as a pre-built Docker image — just run it.</p>
 
   <hr class="divider">
 
@@ -378,7 +378,7 @@ clothing</code></pre>
 
   <h3>Execution Modes</h3>
 
-  <p>perfload supports two ways to run a request, both executed by the perfload runner (Docker / k6) rather than the browser:</p>
+  <p>PerfLoad supports two ways to run a request, both executed by the PerfLoad runner (Docker / k6) rather than the browser:</p>
 
   <ul>
     <li>
@@ -501,7 +501,7 @@ CONFIG=$(curl -s $RUNNER/runs/$BASELINE_RUN_ID | jq '.config | .users = 100 | .d
 
 <div class="card">
   <h2>AI Skills</h2>
-  <p>Skills are markdown files that teach any AI assistant how to drive perfload via its REST API. Instead of building LLM analysis into the app, skills keep the tool lightweight and model-agnostic — the AI reads the skill, then calls the API directly.</p>
+  <p>Skills are markdown files that teach any AI assistant how to drive PerfLoad via its REST API. Instead of building LLM analysis into the app, skills keep the tool lightweight and model-agnostic — the AI reads the skill, then calls the API directly.</p>
 
   <hr class="divider">
 
@@ -547,7 +547,7 @@ GET /skills/dashboard.md</code></pre>
 
 </div>
 <footer style="margin-top:2rem; padding:1rem 2rem; text-align:right; font-size:0.75rem; color:#334155;">
-  perfload v1.6.0
+  PerfLoad v1.6.0
 </footer>
 <script>
   function copyCode(btn) {

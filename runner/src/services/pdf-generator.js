@@ -158,7 +158,7 @@ export async function buildComparisonPdf(runsData) {
 </head>
 <body>
   <div class="header">
-    <h1>perfload &nbsp;/&nbsp; Comparison Report</h1>
+    <h1>PerfLoad &nbsp;/&nbsp; Comparison Report</h1>
     <div class="meta">Generated: ${new Date().toLocaleString()} &nbsp;·&nbsp; ${rows.length} runs</div>
   </div>
 
@@ -305,7 +305,7 @@ export async function buildRunPdf(run, summaryData) {
 </head>
 <body>
   <div class="header">
-    <h1>perfload &nbsp;/&nbsp; Load Test Report</h1>
+    <h1>PerfLoad &nbsp;/&nbsp; Load Test Report</h1>
     <div class="run-id">Run ID: ${run.id}</div>
     <div class="generated">Generated: ${new Date().toLocaleString()}</div>
   </div>

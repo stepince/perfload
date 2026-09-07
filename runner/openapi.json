@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "perfload runner API",
+    "title": "PerfLoad runner API",
     "version": "1.6.0",
     "description": "HTTP API that manages k6 load-test processes: start/stop runs, poll status, and pull metrics, summaries, dashboards, and PDF reports."
   },
