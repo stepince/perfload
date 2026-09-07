@@ -1,6 +1,6 @@
 # ---- Config ----
-IMAGE_NAME := curl-load-runner
-DOCKER_USER := curlload
+IMAGE_NAME := perfload-runner
+DOCKER_USER := perfload
 VERSION := 1.6.0
 
 FULL_IMAGE := $(DOCKER_USER)/$(IMAGE_NAME)
@@ -40,16 +40,16 @@ publish-multiarch:
 
 # ---- Run ----
 run:
-	docker run -p 3000:3000 -v curl-load-runs:/app/runs $(FULL_IMAGE):latest
+	docker run -p 3000:3000 -v perfload-runs:/app/runs $(FULL_IMAGE):latest
 
 run-version:
-	docker run -p 3000:3000 -v curl-load-runs:/app/runs $(FULL_IMAGE):$(VERSION)
+	docker run -p 3000:3000 -v perfload-runs:/app/runs $(FULL_IMAGE):$(VERSION)
 
 # Foreground, with api.internal.demo mapped to the host for local demo targets
 demo-run:
 	docker run -p 3000:3000 \
 		--add-host=api.internal.demo:host-gateway \
-		-v curl-load-runs:/app/runs \
+		-v perfload-runs:/app/runs \
 		$(FULL_IMAGE):latest
 
 # ---- Docker Hub ----
@@ -82,4 +82,4 @@ purge:
 
 # Removes containers, images, AND all run data — cannot be undone
 reset: purge
-	-docker volume rm curl-load-runs
+	-docker volume rm perfload-runs

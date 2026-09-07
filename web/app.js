@@ -423,7 +423,14 @@ function renderHistory(runs) {
 function handleCheckboxChange(id, checked) {
   if (checked) selectedRunIds.add(id);
   else          selectedRunIds.delete(id);
+  refreshSelectionView();
+}
 
+// Shared tail of handleCheckboxChange/selectAll — must run once after all
+// selection changes are applied, not per-checkbox, or the intermediate
+// size===1 state fires an async selectRun() that later resolves and clobbers
+// the compare view once every run is selected.
+function refreshSelectionView() {
   document.querySelectorAll('.run-row').forEach(el => {
     el.classList.toggle('active', selectedRunIds.has(el.dataset.id));
   });
@@ -502,8 +509,10 @@ function updateBulkUI() {
 function selectAll(checked) {
   document.querySelectorAll('.run-checkbox').forEach(cb => {
     cb.checked = checked;
-    handleCheckboxChange(cb.dataset.id, checked);
+    if (checked) selectedRunIds.add(cb.dataset.id);
+    else          selectedRunIds.delete(cb.dataset.id);
   });
+  refreshSelectionView();
 }
 
 async function deleteSelected() {
