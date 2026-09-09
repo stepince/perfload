@@ -384,13 +384,16 @@
     <ul id="historyList"><li style="color:#475569; font-size:0.85rem;">No runs yet.</li></ul>
 
     <div id="historyDetail">
-      <div class="metric-grid" id="detailMetrics"></div>
-      <div style="display:flex; align-items:center; margin-bottom:0.5rem;">
+      <div style="margin-bottom:0.5rem;">
         <a id="dashboardLink" href="#"
-           style="display:none; font-size:0.75rem; color:#7dd3fc; text-decoration:none; margin-left:0.75rem; cursor:pointer;"
+           style="display:none; font-size:1rem; color:#7dd3fc; text-decoration:none; cursor:pointer;"
            onmouseover="this.style.textDecoration='underline'"
            onmouseout="this.style.textDecoration='none'"
-           onclick="openK6Dashboard(this.dataset.url); return false;">View K6 Dashboard ↗</a>
+           onclick="openK6Dashboard(this.dataset.url); return false;">K6 Dashboard ↗</a>
+      </div>
+      <div class="metric-grid" id="detailMetrics"></div>
+      <div style="display:flex; align-items:center; margin-bottom:0.5rem;">
+        <span style="font-size:0.75rem; color:#94a3b8;">Summary</span>
         <a id="certLink" href="#" download="client.crt"
            style="display:none; font-size:0.75rem; color:#94a3b8; text-decoration:none; margin-left:0.75rem;"
            onmouseover="this.style.textDecoration='underline'"

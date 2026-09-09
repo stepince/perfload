@@ -33,6 +33,13 @@
             margin-bottom: 1rem;
         }
 
+        /* Floating dropdown panel (New/Export/Import/Delete/Edit) — its own
+           class instead of reusing .card, so the whole box reads as a
+           distinct popover rather than blending into the main form. */
+        .dropdown-form {
+            background: #2d3548;
+        }
+
         label {
             display: block;
             font-size: 0.8rem;
@@ -330,7 +337,7 @@
 
     <!-- New Project panel — nested here (not a sibling) so position:absolute
          anchors to this bar's position:relative, not to <body> -->
-    <div id="newProjectPanel" class="card"
+    <div id="newProjectPanel" class="card dropdown-form"
          style="display:none; position:absolute; top:100%; left:0; right:0; margin-top:0.4rem;
                 z-index:30; padding:0.85rem 1.25rem; box-shadow:0 12px 32px rgba(0,0,0,0.5); border:1px solid #334155;">
         <div style="display:flex; gap:0.5rem; margin-bottom:0.65rem; flex-wrap:wrap;">
@@ -364,19 +371,19 @@
 
     <!-- Export panel — nested here (not a sibling) so position:absolute
          anchors to this bar's position:relative, not to <body> -->
-    <div id="exportPanel" class="card"
+    <div id="exportPanel" class="card dropdown-form"
          style="display:none; position:absolute; top:100%; left:0; right:0; margin-top:0.4rem;
                 z-index:30; padding:0.85rem 1.25rem; box-shadow:0 12px 32px rgba(0,0,0,0.5); border:1px solid #334155;">
         <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.65rem;">
             <button id="exportSelectAllBtn" onclick="toggleExportSelectAll()" style="margin:0; background:#475569;">Select All</button>
-            <button onclick="exportSelectedProjects()" style="margin:0; margin-left:auto;">Export Selected</button>
         </div>
         <div id="exportProjectList" style="display:flex; flex-direction:column; gap:0.25rem; max-height:200px; overflow-y:auto;"></div>
+        <button onclick="exportSelectedProjects()" style="margin:0.5rem 0 0; align-self:flex-start; float:left;">Export Selected</button>
     </div>
 
     <!-- Import panel — nested here (not a sibling) so position:absolute
          anchors to this bar's position:relative, not to <body> -->
-    <div id="importPanel" class="card"
+    <div id="importPanel" class="card dropdown-form"
          style="display:none; position:absolute; top:100%; left:0; right:0; margin-top:0.4rem;
                 z-index:30; padding:0.85rem 1.25rem; box-shadow:0 12px 32px rgba(0,0,0,0.5); border:1px solid #334155;
                 max-height:70vh; overflow-y:auto;">
@@ -404,7 +411,7 @@
 
     <!-- Delete panel — nested here (not a sibling) so position:absolute
          anchors to this bar's position:relative, not to <body> -->
-    <div id="deletePanel" class="card"
+    <div id="deletePanel" class="card dropdown-form"
          style="display:none; flex-direction:column; gap:0.5rem; position:absolute; top:100%; left:0; right:0; margin-top:0.4rem;
                 z-index:30; padding:0.85rem 1.25rem; box-shadow:0 12px 32px rgba(0,0,0,0.5); border:1px solid #ef4444;
                 max-height:70vh; overflow-y:auto;">
@@ -432,7 +439,7 @@
     <!-- Curl Edit panel — nested here (not a sibling) so position:absolute
          anchors to this card's position:relative, not to <body>. Re-parses
          #curlInput fresh every time it's opened (see populateCurlEditPanel). -->
-    <div id="curlEditPanel" class="card"
+    <div id="curlEditPanel" class="card dropdown-form"
          style="display:none; position:absolute; top:100%; left:0; right:0; margin-top:0.4rem;
                 z-index:30; padding:0.85rem 1.25rem; box-shadow:0 12px 32px rgba(0,0,0,0.5); border:1px solid #334155;">
         <div style="display:flex; flex-direction:column; gap:0.5rem;">
@@ -1700,6 +1707,14 @@
         localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
     }
 
+    // Moves the currently loaded project to the front of a name list so
+    // export/delete panels surface it first, without changing relative
+    // order of the rest.
+    function sortCurrentFirst(names, current) {
+        if (!current || !names.includes(current)) return names;
+        return [current, ...names.filter(name => name !== current)];
+    }
+
     function refreshProfileDropdown() {
         const select = document.getElementById('scenarioSelect');
         const profiles = getAllProfiles();
@@ -1858,7 +1873,9 @@
         if (profiles[newName]) {
             if (!confirm(`A project named "${newName}" already exists. Overwrite it?`)) return;
         }
-        profiles[newName] = JSON.parse(JSON.stringify(profiles[current]));
+        const cloned = JSON.parse(JSON.stringify(profiles[current]));
+        cloned.projectName = newName;
+        profiles[newName] = cloned;
         saveAllProfiles(profiles);
         refreshProfileDropdown();
         document.getElementById('scenarioSelect').value = newName;
@@ -1892,7 +1909,8 @@
     function renderDeletePanel() {
         const list     = document.getElementById('deleteReviewList');
         const profiles = getAllProfiles();
-        const names    = Object.keys(profiles);
+        const current  = document.getElementById('scenarioSelect').value;
+        const names    = sortCurrentFirst(Object.keys(profiles), current);
         document.getElementById('deleteSelectAllBtn').textContent = 'Select All';
         document.getElementById('deleteSummaryLabel').textContent = `${names.length} project${names.length !== 1 ? 's' : ''}`;
 
@@ -2426,7 +2444,8 @@
     function renderExportPanel() {
         const list     = document.getElementById('exportProjectList');
         const profiles = getAllProfiles();
-        const names    = Object.keys(profiles);
+        const current  = document.getElementById('scenarioSelect').value;
+        const names    = sortCurrentFirst(Object.keys(profiles), current);
         document.getElementById('exportSelectAllBtn').textContent = 'Select All';
 
         if (names.length === 0) {
@@ -2438,6 +2457,7 @@
                           cursor:pointer; padding:0.3rem 0.5rem; border-radius:4px; font-family:system-ui;"
                    onmouseover="this.style.background='#252d3d'" onmouseout="this.style.background=''">
                 <input type="checkbox" class="export-project-cb" value="${escapeHtml(name)}"
+                       ${name === current ? 'checked' : ''}
                        style="width:auto; margin:0; accent-color:#3b82f6;" />
                 ${escapeHtml(name)}
             </label>`).join('');
