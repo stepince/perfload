@@ -60,9 +60,17 @@ import { check, sleep } from 'k6';
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.2/index.js';
 
 export const options = {
-  vus: ${users},
-  ${iterations ? `iterations: ${iterations},` : `duration: '${duration}',`}
-  gracefulStop: '5s',
+  // Explicit scenario (rather than top-level vus/duration shorthand) so
+  // gracefulStop lives where k6 expects it — the shorthand form trips a
+  // "unknown field" warning in some k6 versions even though it's valid.
+  scenarios: {
+    default: {
+      executor: '${iterations ? 'shared-iterations' : 'constant-vus'}',
+      vus: ${users},
+      ${iterations ? `iterations: ${iterations},\n      maxDuration: '10m',` : `duration: '${duration}',`}
+      gracefulStop: '5s',
+    },
+  },
   summaryTrendStats: ['avg', 'min', 'med', 'max', 'p(90)', 'p(95)', 'p(99)'],
   ${clientCert ? `tlsClientCertificates: [{ domains: ['${urlHostname}'], cert: open('./client.crt'), key: open('./client.key') }],` : ''}
 };
