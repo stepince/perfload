@@ -31,6 +31,7 @@ runsRouter.post('/compare/report.pdf', async (req, res) => {
     res.setHeader('Content-Disposition', 'attachment; filename="perfload-comparison.pdf"');
     res.end(pdfBytes);
   } catch (err) {
+    console.error('[compare] PDF generation failed:', err.stack || err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -230,7 +231,7 @@ runsRouter.get('/:id/report.pdf', async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename="perfload-${run.id}.pdf"`);
     res.end(pdfBytes);
   } catch (err) {
-    console.error(`[run ${run.id}] PDF generation failed:`, err.message);
+    console.error(`[run ${run.id}] PDF generation failed:`, err.stack || err.message);
     res.status(500).json({ error: 'PDF generation failed', detail: err.message });
   }
 });
